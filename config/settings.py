@@ -95,9 +95,6 @@ DATABASES = {
 }
 
 
-django_on_heroku.settings(locals())
-del DATABASES['default']['OPTIONS']['sslmode']
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -145,3 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "habit_tracker.CustomUser"
 SIMPLE_BACKEND_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+
+django_on_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
