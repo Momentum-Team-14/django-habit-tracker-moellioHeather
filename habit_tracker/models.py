@@ -19,14 +19,18 @@ class HabitGoal(models.Model):
     goal_qty = models.IntegerField()
     unit = models.CharField(
         max_length=50, help_text="i.e. pages, minutes, lines, etc")
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        pass
 
 
 class DailyRecord(models.Model):
     habit = models.ForeignKey(
         'HabitGoal', on_delete=models.CASCADE, related_name="habits", blank=True, null=True)
     date = models.DateField(null=True)
-    notes = models.TextField(max_length=512, default="")
     daily_qty = models.IntegerField
+    notes = models.TextField(max_length=512, default="")
 
     @property
     def get_notes(self):
