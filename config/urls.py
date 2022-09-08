@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from habit_tracker import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('habit_tracker.urls')),
+    path('', views.index, name='index'),
     path('accounts/', include('registration.backends.simple.urls')),
+    path('new_habit_goal/', views.newHabitGoal, name='new_habit_goal')
 ]

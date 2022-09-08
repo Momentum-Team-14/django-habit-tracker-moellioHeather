@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %} 
+    {{ form }} <!-- renders forms as paragraph tags -->
+    <button type="Submit">Add</button>
+</form>
+{% endblock content %}
