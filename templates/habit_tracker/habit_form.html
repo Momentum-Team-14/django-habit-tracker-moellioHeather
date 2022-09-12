@@ -1,9 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% block content %}
+
 <form action="" method="POST">
     {% csrf_token %} 
     {{ form.as_p }} <!-- renders forms as paragraph tags -->
-    <button type="Submit">Add</button>
+    <button type="Submit">Save</button>
 </form>
 {% endblock content %}

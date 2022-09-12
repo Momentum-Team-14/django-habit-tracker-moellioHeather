@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-    return render(request, 'habit_tracker/home.html')
+    return render(request, 'home.html')
 
 
 def habit_list(request):
@@ -15,10 +15,11 @@ def habit_list(request):
                   {'habits': habits})
 
 
-# @login_required
-# def habit_detail(request, pk):
-#     habit = get_object_or_404(HabitGoal, pk=pk)
-#     return render(request, 'habit_tracker/habit_detail.html', {'habit': habit})
+@login_required
+def habit_detail(request, pk):
+    habit = get_object_or_404(HabitGoal, pk=pk)
+    records = DailyRecord.objects.filter(habit=pk).order_by('-date')
+    return render(request, 'habit_tracker/habit_detail.html', {'habit': habit, 'records': records})
 
 
 @login_required
@@ -33,24 +34,51 @@ def newHabitGoal(request):
     else:
         form = HabitGoalForm()
         context = {'form': form}
-        return render(request, 'habit_tracker/habit_form.html', context)
+    return render(request, 'habit_tracker/habit_form.html', context)
+
+
+@login_required
+def editHabit(request, pk):
+    habit = HabitGoal.objects.get(pk=pk)
+    form = HabitGoalForm(instance=habit)
+    if request.method == "POST":
+        form = HabitGoalForm(request.POST, instance=habit)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+    return render(request, 'habit_tracker/habit_form.html', {'form': form})
 
 
 @login_required
 def newDailyRecord(request, pk):
-    habit = habit.objects.get(pk=pk)
+    habit = get_object_or_404(HabitGoal, pk=pk)
     if request.method == 'POST':
-        form = DailyRecordForm()
+        form = DailyRecordForm(data=request.POST)
         if form.is_valid():
-            return redirect('habit_detail')
+            record = form.save(commit=False)
+            record.user = request.user
+            record.habit = habit
+            record.save()
+            return redirect('habit_detail', pk=pk)
     else:
         form = DailyRecordForm()
-        context = {'form': form}
-        return render(request, 'habit_tracker/record_daily.html', context)
+        # context =
+    return render(request, 'habit_tracker/record_form.html', {'form': form})
 
 
-# def habit_detail(request, pk):
-#     habits = HabitGoal.objects.get(pk=pk)
-#     form = DailyRecord(instance=habit)
-#     context = {""}
-#     return render(request, 'records/habit_detail.html', {'habit': habit})
+@login_required
+def editRecord(request, pk):
+    record = DailyRecord.objects.get(pk=pk)
+    form = DailyRecordForm(instance=record)
+    if request.method == "POST":
+        form = DailyRecordForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+    return render(request, 'habit_tracker/record_form.html', {'form': form})
+
+
+@login_required
+def delete(request, pk):
+    context = {}
+    return render(request, 'habit_tracker/delete.html', context)

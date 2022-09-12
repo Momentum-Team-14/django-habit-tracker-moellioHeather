@@ -24,10 +24,13 @@ class HabitGoal(models.Model):
 
 class DailyRecord(models.Model):
     habit = models.ForeignKey(
-        'HabitGoal', on_delete=models.CASCADE, related_name="habits", blank=True, null=True)
+        'HabitGoal', on_delete=models.CASCADE, related_name="records", blank=True, null=True)
     date = models.DateField(null=True)
     daily_qty = models.IntegerField()
-    notes = models.TextField(max_length=512, default="")
+    notes = models.TextField(max_length=512, default="", blank=True, null=True)
+
+    # class Meta:
+    #     unique_together = [['date', 'habit']]
 
     @property
     def get_notes(self):
@@ -37,4 +40,4 @@ class DailyRecord(models.Model):
             return "no excuses today"
 
     def __str__(self):
-        pass
+        return f'{self.daily_qty} {self.habit.unit} {self.habit.habit_action} on {self.date}'

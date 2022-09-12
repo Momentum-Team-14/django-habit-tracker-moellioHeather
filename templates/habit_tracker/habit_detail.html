@@ -1,2 +1,43 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
+
+{% block content %}
+<div class="card">
+    <div class="card-details">
+        <div class="card-goal">{{habit.goal_qty}}</div>
+        <div class="card-unit">{{habit.unit}}</div>
+        <div class="card-title">{{habit.habit_action}}</div>
+    </div>
+    <div class="card-actions">
+        <div class="card-actions">
+            <div class="card-record"><a href="{% url 'record_daily' habit.pk %}">Record</a></div>
+            <div class="card-edit"><a href="{% url 'edit_habit' habit.pk %}">Edit</a></div>
+        </div>
+    </div>
+</div>
+<table id="record-table"> 
+    <tr>
+        <th>Date</th>
+        <th>Quantity</th>
+        <th>Unit of Measure</th>
+        <th>Notes</th>
+        <th>Percentage of Goal</th>
+        <th>Edit</th>
+        <th>Remove</th>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.date }}</td>
+        <td>{{ record.daily_qty }}</td>
+        <td>{{ record.habit.unit }}</td>
+        <td>{{ record.notes }}</td>
+        <td></td>
+        <td><a href="{% url 'edit_record' record.pk %}">Edit</a></td>
+        <td><a href="">Delete</a></td>
+</tr>
+
+        {% endfor %}
+
+
+  </div>    
+{% endblock content %}

@@ -109,9 +109,9 @@ body {
 }
 
 /* Style the "active" element to highlight the current page */
-.topnav a.active {
-  background-color: #2196F3;
-  color: white;
+.card:hover {
+  background-color: #ddd;
+  color: black;
 }
 
 /* Style the search box inside the navigation bar */
@@ -149,4 +149,27 @@ body {
   margin-top: 8px;
   margin-right: 16px;
   font-size: 17px;
+}
+
+#record-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#record-table td, #record-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#record-table tr:nth-child(even){background-color: #f2f2f2;}
+
+#record-table tr:hover {background-color: #ddd;}
+
+#record-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #780563;
+  color: white;
 }

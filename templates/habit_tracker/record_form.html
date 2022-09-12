@@ -1,6 +1,11 @@
-{% extends "base.html" %}
+{% extends "home.html" %}
 
 {% block content %}
+
+
+ <div class="habit">{{ habit.pk }}Hello</div>
+
+    
 <form action="" method="POST">
     {% csrf_token %} 
     {{ form.as_p }} <!-- renders forms as paragraph tags -->

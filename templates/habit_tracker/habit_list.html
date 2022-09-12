@@ -1,17 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'home.html' %}
 
 {% block content %}
 <div class="container">
     {% for habit in habits %}
     <div class="habit-row">
-      <div class="card">
+      <div class="card"><a href="{% url 'habit_detail' habit.pk %}">
+
         <div class="card-title">{{habit.habit_action}}</div>
         <div class="card-goal">{{habit.goal_qty}}</div>
         <div class="card-unit">{{habit.unit}}</div>
-        <div class="card-actions">
-    
-            <div class="card-record"><a href="{% url 'record_daily' %}">Record</a></div>
-        </div>
+      </a>
       </div>
     </div>
         {% endfor %}
