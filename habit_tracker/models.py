@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -29,15 +32,23 @@ class DailyRecord(models.Model):
     daily_qty = models.IntegerField()
     notes = models.TextField(max_length=512, default="", blank=True, null=True)
 
-    # class Meta:
-    #     unique_together = [['date', 'habit']]
-
     @property
     def get_notes(self):
         if self.notes:
             return self.notes
         else:
             return "no excuses today"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['date'], name='one_entry_daily')
+        ]
+
+    def clean(self):
+        if self.date == self.date:
+            raise ValidationError(
+                {'date': _('You may only record one entry per habit each day')})
 
     def __str__(self):
         return f'{self.daily_qty} {self.habit.unit} {self.habit.habit_action} on {self.date}'
