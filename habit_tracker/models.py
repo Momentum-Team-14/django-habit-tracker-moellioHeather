@@ -39,16 +39,17 @@ class DailyRecord(models.Model):
         else:
             return "no excuses today"
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['date'], name='one_entry_daily')
-        ]
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(
+    #             fields=['date'], name='one_entry_daily')
+    #     ]
 
-    def clean(self):
-        if self.date == self.date:
-            raise ValidationError(
-                {'date': _('You may only record one entry per habit each day')})
+    # def clean(self):
+
+    #     if self.date & self.date == self.date:
+    #         raise ValidationError(
+    #             {'date': _('You may only record one entry per habit each day')})
 
     def __str__(self):
         return f'{self.daily_qty} {self.habit.unit} {self.habit.habit_action} on {self.date}'
